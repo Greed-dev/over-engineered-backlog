@@ -16,14 +16,25 @@ async function getThumbnail(type, title) {
             const data = await res.json();
             if (data.results?.length > 0 && data.results[0].poster_path) return `https://image.tmdb.org/t/p/w500${data.results[0].poster_path}`;
         }
-        else if (type === 'game') {
-            // Because this is Node.js, we can hit Steam directly with no CORS issues!
-            const res = await fetch(`https://store.steampowered.com/api/storesearch/?term=${query}&l=english&cc=US`);
-            const data = await res.json();
-            if (data.items && data.items.length > 0) {
-                // Grab the Steam App ID and construct the tall library cover URL
-                const appId = data.items[0].id;
+                else if (type === 'game') {
+            // 1. Try Steam first (Best quality for PC games)
+            const steamRes = await fetch(`https://store.steampowered.com/api/storesearch/?term=${query}&l=english&cc=US`);
+            const steamData = await steamRes.json();
+            
+            if (steamData.items && steamData.items.length > 0) {
+                const appId = steamData.items[0].id;
                 return `https://steamcdn-a.akamaihd.net/steam/apps/${appId}/library_600x900_2x.jpg`;
+            }
+            
+            // 2. If not on Steam (Console games), fallback to Wikipedia Box Art
+            const wikiRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${query}%20video%20game&gsrlimit=1&prop=pageimages&pithumbsize=500&format=json`);
+            const wikiData = await wikiRes.json();
+            
+            if (wikiData.query && wikiData.query.pages) {
+                const firstPageId = Object.keys(wikiData.query.pages)[0];
+                if (wikiData.query.pages[firstPageId]?.thumbnail) {
+                    return wikiData.query.pages[firstPageId].thumbnail.source;
+                }
             }
         }
         else if (type === 'anime') {
