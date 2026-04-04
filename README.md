@@ -1,5 +1,5 @@
 # over-engineered-backlog
-My backlog for all type of media and entertainment
+My backlog for all type of media and entertainment, the persistence is implemented in the github issues
 
 ## The main page is **[backlog](https://greed-dev.github.io/over-engineered-backlog/)**
 
