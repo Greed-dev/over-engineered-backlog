@@ -16,31 +16,25 @@ async function getThumbnail(type, title) {
             const data = await res.json();
             if (data.results?.length > 0 && data.results[0].poster_path) return `https://image.tmdb.org/t/p/w500${data.results[0].poster_path}`;
         }
-                else if (type === 'game') {
-            // 1. Try Steam first (Best quality for PC games)
+        else if (type === 'game') {
+            // 1. Try Steam first (It gives us perfect vertical library covers)
             const steamRes = await fetch(`https://store.steampowered.com/api/storesearch/?term=${query}&l=english&cc=US`);
             const steamData = await steamRes.json();
             
             if (steamData.items && steamData.items.length > 0) {
                 const appId = steamData.items[0].id;
+                // Note: Sometimes Steam games don't have the new vertical cover, but this works 90% of the time
                 return `https://steamcdn-a.akamaihd.net/steam/apps/${appId}/library_600x900_2x.jpg`;
             }
             
-            // 2. If not on Steam (Console games), fallback to Wikipedia Box Art
-            const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${query}%20video%20game&gsrlimit=1&prop=pageimages&pithumbsize=500&format=json`;
+            // 2. Fallback to RAWG for Console/Nintendo games!
+            const apiKey = '3d02b18efb9740969028f9eb60866c8f'; 
+            const rawgRes = await fetch(`https://api.rawg.io/api/games?search=${query}&key=${apiKey}&page_size=1`);
+            const rawgData = await rawgRes.json();
             
-            // Wikipedia requires a User-Agent from bots, or it blocks the request!
-            const wikiRes = await fetch(wikiUrl, {
-                headers: { 'User-Agent': 'OverEngineeredBacklog/1.0 (https://github.com/Greed-dev/over-engineered-backlog)' }
-            });
-            
-            const wikiData = await wikiRes.json();
-            
-            if (wikiData.query && wikiData.query.pages) {
-                const firstPageId = Object.keys(wikiData.query.pages)[0];
-                if (wikiData.query.pages[firstPageId]?.thumbnail) {
-                    return wikiData.query.pages[firstPageId].thumbnail.source;
-                }
+            if (rawgData.results && rawgData.results.length > 0 && rawgData.results[0].background_image) {
+                // We use RAWG's hidden image cropper via the URL to force it into a vertical portrait aspect ratio!
+                return rawgData.results[0].background_image.replace('/media/games/', '/media/crop/600/900/games/');
             }
         }
         else if (type === 'anime') {
