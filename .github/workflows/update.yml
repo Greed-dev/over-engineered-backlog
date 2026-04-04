@@ -4,20 +4,25 @@ on:
   schedule:
     - cron: "0 0 * * *" # Runs every midnight
   issues:
-    types: [opened, edited, deleted, labeled, unlabeled, closed] # Runs live when updating an issue
-  workflow_dispatch: # Allows manual trigger from GitHub UI
+    types: [opened, edited, deleted, labeled, unlabeled, closed] 
+  workflow_dispatch: 
+
+# THIS FIXES ERROR 128 (Grants the bot permission to push to repository)
+permissions:
+  contents: write
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
+      # Upgraded to v4 to fix the yellow Node.js warning
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Run Update Script
         run: node update-readme.js
