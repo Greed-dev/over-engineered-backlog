@@ -55,7 +55,7 @@ async function updateReadme() {
         const thumbnailUrl = await getThumbnail(type, issue.title);
         
         // We use HTML here to ensure the poster sizes stay uniform on the GitHub README
-        const markdownImage = `<a href="${issue.html_url}"><img src="${thumbnailUrl}" height="220" alt="${issue.title}" title="${issue.title}" /></a>`;
+        const markdownImage = `<a href="${issue.html_url}"><img src="${thumbnailUrl}" width="200" alt="${issue.title}" title="${issue.title}" /></a>`;
         
         categorized[status].push(markdownImage);
 
