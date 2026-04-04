@@ -27,7 +27,13 @@ async function getThumbnail(type, title) {
             }
             
             // 2. If not on Steam (Console games), fallback to Wikipedia Box Art
-            const wikiRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${query}%20video%20game&gsrlimit=1&prop=pageimages&pithumbsize=500&format=json`);
+            const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${query}%20video%20game&gsrlimit=1&prop=pageimages&pithumbsize=500&format=json`;
+            
+            // Wikipedia requires a User-Agent from bots, or it blocks the request!
+            const wikiRes = await fetch(wikiUrl, {
+                headers: { 'User-Agent': 'OverEngineeredBacklog/1.0 (https://github.com/Greed-dev/over-engineered-backlog)' }
+            });
+            
             const wikiData = await wikiRes.json();
             
             if (wikiData.query && wikiData.query.pages) {
