@@ -17,10 +17,14 @@ async function getThumbnail(type, title) {
             if (data.results?.length > 0 && data.results[0].poster_path) return `https://image.tmdb.org/t/p/w500${data.results[0].poster_path}`;
         }
         else if (type === 'game') {
-            const apiKey = '3d02b18efb9740969028f9eb60866c8f'; // From rawg.io
-            const res = await fetch(`https://api.rawg.io/api/games?search=${query}&key=${apiKey}&page_size=1`);
+            // Because this is Node.js, we can hit Steam directly with no CORS issues!
+            const res = await fetch(`https://store.steampowered.com/api/storesearch/?term=${query}&l=english&cc=US`);
             const data = await res.json();
-            if (data.results?.length > 0) return data.results[0].background_image;
+            if (data.items && data.items.length > 0) {
+                // Grab the Steam App ID and construct the tall library cover URL
+                const appId = data.items[0].id;
+                return `https://steamcdn-a.akamaihd.net/steam/apps/${appId}/library_600x900_2x.jpg`;
+            }
         }
         else if (type === 'anime') {
             const res = await fetch(`https://api.jikan.moe/v4/anime?q=${query}&limit=1`);
@@ -56,7 +60,7 @@ async function updateReadme() {
         
         // We use HTML here to ensure the poster sizes stay uniform on the GitHub README
         const markdownImage = `<a href="${issue.html_url}"><img src="${thumbnailUrl}" width="200" alt="${issue.title}" title="${issue.title}" /></a>`;
-        
+
         categorized[status].push(markdownImage);
 
         if (type === 'anime') await sleep(400); // Respect Jikan rate limit
