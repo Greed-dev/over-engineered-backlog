@@ -33,8 +33,8 @@ async function getThumbnail(type, title) {
             const rawgData = await rawgRes.json();
             
             if (rawgData.results && rawgData.results.length > 0 && rawgData.results[0].background_image) {
-                // We use RAWG's hidden image cropper via the URL to force it into a vertical portrait aspect ratio!
-                return rawgData.results[0].background_image.replace('/media/games/', '/media/crop/600/900/games/');
+                
+                return rawgData.results[0].background_image;
             }
         }
         else if (type === 'anime') {
