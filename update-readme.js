@@ -55,7 +55,7 @@ async function updateReadme() {
         const thumbnailUrl = await getThumbnail(type, issue.title);
         
         // We use HTML here to ensure the poster sizes stay uniform on the GitHub README
-        const markdownImage = `<a href="${issue.html_url}"><img src="${thumbnailUrl}" height="220" width="150" alt="${issue.title}" title="${issue.title}" style="object-fit: cover; margin-right: 5px;"/></a>`;
+        const markdownImage = `<a href="${issue.html_url}"><img src="${thumbnailUrl}" height="220" alt="${issue.title}" title="${issue.title}" /></a>`;
         
         categorized[status].push(markdownImage);
 
@@ -65,8 +65,8 @@ async function updateReadme() {
     // Build the Markdown section
     let newReadmeSection = `<!-- START_BACKLOG -->\n\n`;
     
-    newReadmeSection += `### 🚧 Currently Suffering Through\n<p align="left">\n${categorized.doing.join('\n') || '*Nothing here yet.*'}\n</p>\n\n`;
-    newReadmeSection += `### 📚 Pile of Shame\n<p align="left">\n${categorized.backlog.join('\n') || '*Nothing here yet.*'}\n</p>\n\n`;
+    newReadmeSection += `### 🚧 Currently Going Through\n<p align="left">\n${categorized.doing.join('\n') || '*Nothing here yet.*'}\n</p>\n\n`;
+    newReadmeSection += `### 📚 Never Ending Black Hole\n<p align="left">\n${categorized.backlog.join('\n') || '*Nothing here yet.*'}\n</p>\n\n`;
     newReadmeSection += `### ✅ Actually Finished\n<p align="left">\n${categorized.done.join('\n') || '*Nothing here yet.*'}\n</p>\n\n`;
     
     newReadmeSection += `<!-- END_BACKLOG -->`;
