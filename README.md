@@ -8,7 +8,7 @@ My backlog for all type of media and entertainment
 
 ### 🚧 Currently Going Through
 <p align="left">
-*Nothing here yet.*
+<a href="https://github.com/Greed-dev/over-engineered-backlog/issues/2"><img src="https://media.rawg.io/media/screenshots/8f8/8f84d86684aa6e4cfe2c647386159d00.jpg" width="200" alt="Fire Emblem Path of Radiance" title="Fire Emblem Path of Radiance" /></a>
 </p>
 
 ### 📚 Never Ending Black Hole
@@ -20,14 +20,5 @@ My backlog for all type of media and entertainment
 <p align="left">
 <a href="https://github.com/Greed-dev/over-engineered-backlog/issues/1"><img src="https://media.rawg.io/media/games/26d/26d4437715bee60138dab4a7c8c59c92.jpg" width="200" alt="Cyberpunk 2077" title="Cyberpunk 2077" /></a>
 </p>
-
-
-
-
-
-
-
-
-
 
 <!-- END_BACKLOG -->
