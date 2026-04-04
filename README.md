@@ -13,7 +13,7 @@ My backlog for all type of media and entertainment
 
 ### 📚 Never Ending Black Hole
 <p align="left">
-*Nothing here yet.*
+<a href="https://github.com/Greed-dev/over-engineered-backlog/issues/3"><img src="https://media.rawg.io/media/screenshots/e05/e05391b37193a3fc5142193d6a303087.jpg" width="200" alt="Fire Emblem Radiant Dawn" title="Fire Emblem Radiant Dawn" /></a>
 </p>
 
 ### ✅ Actually Finished
